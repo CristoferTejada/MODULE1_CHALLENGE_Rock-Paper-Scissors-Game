@@ -116,5 +116,31 @@
             GuardarHistorial(historial, ref contador, $"Piedra/Papel/Tijera: {resultado}");
         }
 
+
+        static void GuardarHistorial(string[] historial, ref int contador, string mensaje)
+        {
+            if (contador < historial.Length)
+            {
+                historial[contador] = mensaje;
+                contador++;
+            }
+        }
+
+        static void VerHistorial(string[] historial, int contador)
+        {
+            Console.Clear();
+            Console.WriteLine("📜 Historial de partidas:");
+            if (contador == 0)
+            {
+                Console.WriteLine("No hay partidas registradas.");
+            }
+            else
+            {
+                for (int i = 0; i < contador; i++)
+                {
+                    Console.WriteLine($"- {historial[i]}");
+                }
+            }
+        }
     }
 }
