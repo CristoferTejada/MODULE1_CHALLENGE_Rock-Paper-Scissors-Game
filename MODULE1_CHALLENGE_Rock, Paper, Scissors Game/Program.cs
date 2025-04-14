@@ -73,5 +73,48 @@
             GuardarHistorial(historial, ref contador, $"Adivina el número: {intentos} intentos");
         }
 
+        static void JuegoPiedraPapelTijera(string[] historial, ref int contador)
+        {
+            Console.Clear();
+            Console.WriteLine("✊✋✌️ Piedra, Papel o Tijera");
+
+            string[] opciones = { "Piedra", "Papel", "Tijera" };
+            Random rnd = new Random();
+            int eleccionPC = rnd.Next(0, 3);
+
+            Console.WriteLine("Elige tu opción:");
+            for (int i = 0; i < opciones.Length; i++)
+            {
+                Console.WriteLine($"{i + 1}. {opciones[i]}");
+            }
+
+            int eleccionUsuario;
+            while (!int.TryParse(Console.ReadLine(), out eleccionUsuario) || eleccionUsuario < 1 || eleccionUsuario > 3)
+            {
+                Console.Write("Opción inválida. Elige 1, 2 o 3: ");
+            }
+
+            string jugador = opciones[eleccionUsuario - 1];
+            string pc = opciones[eleccionPC];
+
+            Console.WriteLine($"Tú elegiste: {jugador}");
+            Console.WriteLine($"La PC eligió: {pc}");
+
+            string resultado = "";
+
+            if (jugador == pc)
+                resultado = "Empate";
+            else if ((jugador == "Piedra" && pc == "Tijera") ||
+                     (jugador == "Papel" && pc == "Piedra") ||
+                     (jugador == "Tijera" && pc == "Papel"))
+                resultado = "Ganaste";
+            else
+                resultado = "Perdiste";
+
+            Console.WriteLine($"Resultado: {resultado}");
+
+            GuardarHistorial(historial, ref contador, $"Piedra/Papel/Tijera: {resultado}");
+        }
+
     }
 }
