@@ -42,6 +42,26 @@
             } while (opcion != 4);
         }
 
+        static void MostrarMenu()
+        {
+            Console.WriteLine("===== MENÚ PRINCIPAL =====");
+            Console.WriteLine("1. Jugar Adivina el número");
+            Console.WriteLine("2. Jugar Piedra, Papel o Tijera");
+            Console.WriteLine("3. Ver historial de partidas");
+            Console.WriteLine("4. Salir");
+            Console.Write("Elige una opción: ");
+        }
+
+        static int LeerOpcionMenu()
+        {
+            int valor;
+            while (!int.TryParse(Console.ReadLine(), out valor) || valor < 1 || valor > 4)
+            {
+                Console.Write("Entrada inválida. Ingresa una opción válida (1-4): ");
+            }
+            return valor;
+        }
+
         static void AdivinaNumero(string[] historial, ref int contador)
         {
             Console.Clear();
