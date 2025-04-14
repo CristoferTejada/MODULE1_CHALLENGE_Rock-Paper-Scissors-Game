@@ -4,7 +4,42 @@
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello, World!");
+            int opcion;
+            string[] historial = new string[100];
+            int contadorHistorial = 0;
+
+            do
+            {
+                MostrarMenu();
+                opcion = LeerOpcionMenu();
+
+                switch (opcion)
+                {
+                    case 1:
+                        AdivinaNumero(historial, ref contadorHistorial);
+                        break;
+                    case 2:
+                        JuegoPiedraPapelTijera(historial, ref contadorHistorial);
+                        break;
+                    case 3:
+                        VerHistorial(historial, contadorHistorial);
+                        break;
+                    case 4:
+                        Console.WriteLine("Saliendo del programa...");
+                        break;
+                    default:
+                        Console.WriteLine("Opción no válida.");
+                        break;
+                }
+
+                if (opcion != 4)
+                {
+                    Console.WriteLine("\nPresiona una tecla para volver al menú...");
+                    Console.ReadKey();
+                    Console.Clear();
+                }
+
+            } while (opcion != 4);
         }
     }
 }
