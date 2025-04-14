@@ -1,4 +1,4 @@
-﻿namespace MODULE1_CHALLENGE_Rock__Paper__Scissors_Game
+﻿namespace MODULE1_CHALLENGE_Rock__Paper__Scissors_Game    
 {
     internal class Program
     {
@@ -6,7 +6,9 @@
         {
             int opcion;
             string[] historial = new string[100];
+            string[,] ranking = new string[100, 3];
             int contadorHistorial = 0;
+            int contadorRanking = 0;
 
             do
             {
@@ -16,16 +18,19 @@
                 switch (opcion)
                 {
                     case 1:
-                        AdivinaNumero(historial, ref contadorHistorial);
+                        AdivinaNumero(historial, ranking, ref contadorHistorial, ref contadorRanking);
                         break;
                     case 2:
-                        JuegoPiedraPapelTijera(historial, ref contadorHistorial);
+                        JuegoPiedraPapelTijera(historial, ranking, ref contadorHistorial, ref contadorRanking);
                         break;
                     case 3:
                         VerHistorial(historial, contadorHistorial);
                         break;
                     case 4:
                         Console.WriteLine("Saliendo del programa...");
+                        break;
+                    case 5:
+                        VerRanking(ranking, contadorRanking);
                         break;
                     default:
                         Console.WriteLine("Opción no válida.");
@@ -49,20 +54,21 @@
             Console.WriteLine("2. Jugar Piedra, Papel o Tijera");
             Console.WriteLine("3. Ver historial de partidas");
             Console.WriteLine("4. Salir");
+            Console.WriteLine("5. Ver ranking de partidas");
             Console.Write("Elige una opción: ");
         }
 
         static int LeerOpcionMenu()
         {
             int valor;
-            while (!int.TryParse(Console.ReadLine(), out valor) || valor < 1 || valor > 4)
+            while (!int.TryParse(Console.ReadLine(), out valor) || valor < 1 || valor > 5)
             {
-                Console.Write("Entrada inválida. Ingresa una opción válida (1-4): ");
+                Console.Write("Entrada inválida. Ingresa una opción válida (1-5): ");
             }
             return valor;
         }
 
-        static void AdivinaNumero(string[] historial, ref int contador)
+        static void AdivinaNumero(string[] historial, string[,] ranking, ref int contador, ref int contadorRank)
         {
             Console.Clear();
             Console.WriteLine("🎯 Adivina el número (1 al 10)");
@@ -90,10 +96,12 @@
 
             } while (intento != numeroSecreto);
 
-            GuardarHistorial(historial, ref contador, $"Adivina el número: {intentos} intentos");
+            string mensaje = $"Adivina el número: {intentos} intentos";
+            GuardarHistorial(historial, ref contador, mensaje);
+            GuardarRanking(ranking, ref contadorRank, "Adivina el número", "Ganaste", $"{intentos} intentos");
         }
 
-        static void JuegoPiedraPapelTijera(string[] historial, ref int contador)
+        static void JuegoPiedraPapelTijera(string[] historial, string[,] ranking, ref int contador, ref int contadorRank)
         {
             Console.Clear();
             Console.WriteLine("✊✋✌️ Piedra, Papel o Tijera");
@@ -134,6 +142,7 @@
             Console.WriteLine($"Resultado: {resultado}");
 
             GuardarHistorial(historial, ref contador, $"Piedra/Papel/Tijera: {resultado}");
+            GuardarRanking(ranking, ref contadorRank, "Piedra/Papel/Tijera", resultado, "");
         }
 
 
@@ -142,6 +151,17 @@
             if (contador < historial.Length)
             {
                 historial[contador] = mensaje;
+                contador++;
+            }
+        }
+
+        static void GuardarRanking(string[,] ranking, ref int contador, string juego, string resultado, string detalle)
+        {
+            if (contador < ranking.GetLength(0))
+            {
+                ranking[contador, 0] = juego;
+                ranking[contador, 1] = resultado;
+                ranking[contador, 2] = detalle;
                 contador++;
             }
         }
@@ -159,6 +179,26 @@
                 for (int i = 0; i < contador; i++)
                 {
                     Console.WriteLine($"- {historial[i]}");
+                }
+            }
+        }
+
+        static void VerRanking(string[,] ranking, int contador)
+        {
+            Console.Clear();
+            Console.WriteLine("🏆 Ranking de partidas:");
+
+            if (contador == 0)
+            {
+                Console.WriteLine("No hay datos en el ranking.");
+            }
+            else
+            {
+                Console.WriteLine("Juego		Resultado	Detalle");
+                Console.WriteLine("-----------------------------------------");
+                for (int i = 0; i < contador; i++)
+                {
+                    Console.WriteLine($"{ranking[i, 0]}	{ranking[i, 1]}		{ranking[i, 2]}");
                 }
             }
         }
